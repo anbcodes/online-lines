@@ -26,14 +26,14 @@
     return polyInOut2;
   }(exponent);
 
-  // index.ts
+  // public/index.ts
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   if (!ctx)
     throw new Error("Failed to get context");
   var color = Math.floor(Math.random() * 255);
   var id = Math.floor(Math.random() * 2 ** 30);
-  var radius = 50;
+  var radius = 10;
   var moves = [
     {
       r: radius,
@@ -79,8 +79,8 @@
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
-  var server = new WebSocket("ws://localhost:8080");
-  window.addEventListener("click", (ev) => {
+  var server = new WebSocket((window.location.protocol === "https:" ? "wss://" : "ws://") + window.location.host + "/socket");
+  window.addEventListener("pointerdown", (ev) => {
     let last = [...moves].reverse().find((v) => v.id === id);
     let timePasted = +/* @__PURE__ */ new Date() - last.startTime;
     let startTime = +/* @__PURE__ */ new Date();

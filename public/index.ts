@@ -7,7 +7,7 @@ if (!ctx) throw new Error("Failed to get context");
 const color = Math.floor(Math.random() * 255)
 const id = Math.floor(Math.random() * 2 ** 30);
 
-let radius = 50;
+let radius = 10;
 
 let moves: {
   r: number,
@@ -82,10 +82,9 @@ function render() {
 
 requestAnimationFrame(render);
 
-const server = new WebSocket('ws://localhost:8080');
+let server = new WebSocket(((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/socket");
 
-
-window.addEventListener('click', (ev) => {
+window.addEventListener('pointerdown', (ev) => {
   let last = [...moves].reverse().find(v => v.id === id)!;
   let timePasted = +new Date() - last.startTime;
   let startTime = +new Date();
